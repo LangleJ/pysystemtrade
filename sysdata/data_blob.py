@@ -251,7 +251,8 @@ class dataBlob(object):
     @property
     def ib_conn(self) -> connectionIB:
         ib_conn = getattr(self, "_ib_conn", arg_not_supplied)
-        if ib_conn is arg_not_supplied:
+        ib_auto_connect = self.config.get_element_or_default_value('ib_auto_connect', True)
+        if ib_conn is arg_not_supplied and ib_auto_connect:
             ib_conn = self._get_new_ib_connection()
             self._ib_conn = ib_conn
 
