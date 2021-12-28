@@ -5,6 +5,8 @@ import sys
 from sysdata.mongodb.mongo_roll_data import mongoRollParametersData
 from sysdata.csv.csv_roll_parameters import csvRollParametersData, ROLLS_CONFIG_FILE
 
+ROLLS_CONFIG_FILE = 'fsb_roll_config.csv'
+
 args = None
 if len(sys.argv) > 1:
     args = sys.argv[1]
