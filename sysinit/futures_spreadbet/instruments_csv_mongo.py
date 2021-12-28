@@ -6,7 +6,7 @@ from sysdata.mongodb.mongo_futures_instruments import mongoFuturesInstrumentData
 from sysdata.csv.csv_instrument_data import csvFuturesInstrumentData
 
 DEFAULT_CONFIG_PATH = "data.futures_spreadbet.csvconfig"
-DEFAULT_CONFIG_FILE = "instrumentconfig.csv"
+DEFAULT_CONFIG_FILE = "futures_instrument_config.csv"
 
 args = None
 if len(sys.argv) > 1:
