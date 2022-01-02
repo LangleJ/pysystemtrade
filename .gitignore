@@ -9,7 +9,9 @@ dist
 build
 private
 restats
-
+.vs
+*.pyproj
+*.sln
 # Coverage reports
 .coverage
 .coverage.*
@@ -31,3 +33,4 @@ env*/
 # backups
 data/backups_csv
 data/mongo_dump
+doxygen
