@@ -36,3 +36,4 @@ data/mongo_dump
 doxygen
 *.pck
 /git
+/data/futures/adjusted_prices_csv
