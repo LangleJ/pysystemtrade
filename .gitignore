@@ -35,3 +35,4 @@ data/backups_csv
 data/mongo_dump
 doxygen
 *.pck
+/git
