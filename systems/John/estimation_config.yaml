@@ -8,6 +8,10 @@ use_instrument_div_mult_estimates: True
 use_forecast_scale_estimates: True
 #    pool_instruments: True
 
+forecast_weight_estimate : 
+  n_threads : 8
+
+
 #
 #
 #

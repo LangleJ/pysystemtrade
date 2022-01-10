@@ -26,16 +26,14 @@ from systems.provided.dynamic_small_system_optimise.accounts_stage import (
     accountForOptimisedStage,
 )
 
-def futures_system(
-    data=None, config=None, trading_rules=arg_not_supplied, log_level="on"
+def spreadbettingSystem(
+    config_filename, data=None, trading_rules=arg_not_supplied, log_level="on"
 ):
- 
-     if data is None:
-        sim_data = dbFuturesSimData()
+    if data is None:
+       sim_data = dbFuturesSimData()
     
-     if config is None:
-        config_filename="systems.john.config.yaml"
-        config = Config(config_filename)
+
+    config  = Config(config_filename)
 
     system = System(
         [
@@ -58,38 +56,9 @@ def futures_system(
     return system
 
 if __name__ == "__main__":
-    plots_path = 'C:\\Quant\\pysystemtrade\\systems\\John'
-    system = futures_system()
-    stats = system.accounts.portfolio().stats()
-    system.portfolio.get_instrument_correlation_matrix()
+    import doctest
 
-    system.cache.pickle("systems.John.system.pck")
-
-    stats_dict = dict(stats[0])
-    print_stats(stats)
-
-    df = system.accounts.portfolio().curve()
-    filepath = os.path.join(plots_path, 'PandL.png')
-    title = f"PandL, Sharpe:{stats_dict['sharpe']}"
-    plot_lines_df(filepath, df, title)
-
-    df = system.portfolio.get_instrument_weights()
-    filepath = os.path.join(plots_path, 'InstrumentWeightsTime.png')
-    title = f"Instrument Weights Over Time"
-    plot_lines_df(filepath, df, title)
-
-    df = system.portfolio.get_instrument_weights().iloc[-1].sort_values()
-    filepath = os.path.join(plots_path, 'InstrumentWeights.png')
-    title = f"Instrument Weights"
-    plot_bars_series(filepath, df, title)
-
-    instruments = system.get_instrument_list()
-
-
-    
-    max_instrument_weight = 0.1
-    notional_starting_IDM = 1.0
-    minimum_instrument_weight_idm = max_instrument_weight * notional_starting_IDM
+    doctest.testmod()
 
 
 
