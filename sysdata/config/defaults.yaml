@@ -398,6 +398,7 @@ exclude_instrument_lists:
     - DJSTX-SMALL
     - ETHANOL
     - ETHER-micro
+    - ETHEREUM
     - EU-BANKS
     - EU-CHEM
     - EU-CONSTRUCTION
