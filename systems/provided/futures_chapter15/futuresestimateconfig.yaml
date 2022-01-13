@@ -1,5 +1,8 @@
 #YAML
 #
+forecast_weight_estimate : 
+  n_threads: 8
+
 # Raw data
 #
 # Trading rules
@@ -86,9 +89,9 @@ use_instrument_div_mult_estimates: True
 #
 percentage_vol_target: 20.0
 notional_trading_capital: 250000
-base_currency: "USD"
+base_currency: "GBP"
 #
 # Portfolio creation
 #
-instruments: ['EDOLLAR','US10','EUROSTX', 'MXP', 'CORN', 'V2X']
+instruments: ['3mEurodollar_JLSB','10YTNote_JLSB','FTSE100_JLSB', 'USDJPY_JLSB', 'Corn_JLSB', 'VolatilityIndex_JLSB']
 

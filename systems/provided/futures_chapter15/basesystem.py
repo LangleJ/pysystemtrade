@@ -6,7 +6,7 @@ A system consists of a system, plus a config
 """
 from syscore.objects import arg_not_supplied
 
-from sysdata.sim.csv_futures_sim_data import csvFuturesSimData
+from sysdata.sim.db_futures_sim_data import dbFuturesSimData
 from sysdata.config.configdata import Config
 
 from systems.forecasting import Rules
@@ -62,7 +62,7 @@ def futures_system(
     """
 
     if data is arg_not_supplied:
-        data = csvFuturesSimData()
+        data = dbFuturesSimData()
 
     if config is arg_not_supplied:
         config = Config("systems.provided.futures_chapter15.futuresconfig.yaml")
