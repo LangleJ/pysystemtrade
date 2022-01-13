@@ -1,0 +1,371 @@
+#YAML
+# Fitting instructions
+
+use_forecast_weight_estimates: False
+use_forecast_div_mult_estimates: False
+use_instrument_weight_estimates: False
+use_instrument_div_mult_estimates: False
+use_forecast_scale_estimates: False
+#    pool_instruments: True
+
+forecast_weight_estimate : 
+  n_threads: 8
+
+capital_multiplier:
+#  func: syscore.capital.half_compounding
+  func: syscore.capital.full_compounding
+  
+#start_date: 2000-01-01
+
+volatility_calculation:
+  func: "sysquant.estimators.vol.mixed_vol_calc"
+  days: 35
+  min_periods: 10
+  vol_abs_min: 0.0000000001
+  slow_vol_years: 20
+  proportion_of_slow_vol: 0.35
+  backfill: True
+
+percentage_vol_target: 25.0
+notional_trading_capital: 10000
+base_currency: "GBP"
+
+use_attenuation:
+   - 'breakout10'
+   - 'breakout20'
+   - 'breakout40'
+   - 'breakout80'
+   - 'breakout160'
+   - 'breakout320'
+   - 'relmomentum10'
+   - 'relmomentum20'
+   - 'relmomentum40'
+   - 'relmomentum80'
+   - 'mrinasset160'
+   - 'assettrend2'
+   - 'assettrend4'
+   - 'assettrend8'
+   - 'assettrend16'
+   - 'assettrend32'
+   - 'assettrend64'
+   - 'normmom2'
+   - 'normmom4'
+   - 'normmom8'
+   - 'normmom16'
+   - 'normmom32'
+   - 'normmom64'
+   - 'momentum4'
+   - 'momentum8'
+   - 'momentum16'
+   - 'momentum32'
+   - 'momentum64'
+trading_rules:
+  breakout10:
+     function: systems.provided.rob_system.rules.breakout
+     data:
+         - "rawdata.get_daily_prices"
+     other_args:
+       lookback: 10
+  breakout20:
+     function: systems.provided.rob_system.rules.breakout
+     data:
+         - "rawdata.get_daily_prices"
+     other_args:
+       lookback: 20
+  breakout40:
+     function: systems.provided.rob_system.rules.breakout
+     data:
+         - "rawdata.get_daily_prices"
+     other_args:
+       lookback: 40
+  breakout80:
+     function: systems.provided.rob_system.rules.breakout
+     data:
+         - "rawdata.get_daily_prices"
+     other_args:
+       lookback: 80
+  breakout160:
+     function: systems.provided.rob_system.rules.breakout
+     data:
+         - "rawdata.get_daily_prices"
+     other_args:
+       lookback: 160
+  breakout320:
+     function: systems.provided.rob_system.rules.breakout
+     data:
+         - "rawdata.get_daily_prices"
+     other_args:
+       lookback: 320
+  relmomentum10:
+     function: systems.provided.rob_system.rules.relative_momentum
+     data:
+         - "rawdata.get_cumulative_daily_vol_normalised_returns"
+         - "rawdata.normalised_price_for_asset_class"
+     other_args:
+       horizon: 10
+  relmomentum20:
+     function: systems.provided.rob_system.rules.relative_momentum
+     data:
+         - "rawdata.get_cumulative_daily_vol_normalised_returns"
+         - "rawdata.normalised_price_for_asset_class"
+     other_args:
+       horizon: 20
+  relmomentum40:
+     function: systems.provided.rob_system.rules.relative_momentum
+     data:
+         - "rawdata.get_cumulative_daily_vol_normalised_returns"
+         - "rawdata.normalised_price_for_asset_class"
+     other_args:
+       horizon: 40
+  relmomentum80:
+     function: systems.provided.rob_system.rules.relative_momentum
+     data:
+         - "rawdata.get_cumulative_daily_vol_normalised_returns"
+         - "rawdata.normalised_price_for_asset_class"
+     other_args:
+       horizon: 80
+  mrinasset160:
+     function: systems.provided.rob_system.rules.cross_sectional_mean_reversion
+     data:
+         - "rawdata.get_cumulative_daily_vol_normalised_returns"
+         - "rawdata.normalised_price_for_asset_class"
+     other_args:
+       horizon: 160
+  carry10:
+     function: systems.provided.rob_system.rules.carry
+     data:
+         - "rawdata.raw_carry"
+     other_args:
+         smooth_days: 10
+  carry30:
+     function: systems.provided.rob_system.rules.carry
+     data:
+         - "rawdata.raw_carry"
+     other_args:
+         smooth_days: 30
+  carry60:
+     function: systems.provided.rob_system.rules.carry
+     data:
+         - "rawdata.raw_carry"
+     other_args:
+         smooth_days: 60
+  carry125:
+     function: systems.provided.rob_system.rules.carry
+     data:
+         - "rawdata.raw_carry"
+     other_args:
+         smooth_days: 125
+  assettrend2:
+     function: systems.provided.rob_system.rules.ewmac_calc_vol
+     data:
+         - "rawdata.normalised_price_for_asset_class"
+     other_args:
+         Lfast: 2
+         Lslow: 8
+  assettrend4:
+     function: systems.provided.rob_system.rules.ewmac_calc_vol
+     data:
+         - "rawdata.normalised_price_for_asset_class"
+     other_args:
+         Lfast: 4
+         Lslow: 16
+  assettrend8:
+     function: systems.provided.rob_system.rules.ewmac_calc_vol
+     data:
+         - "rawdata.normalised_price_for_asset_class"
+     other_args:
+         Lfast: 8
+         Lslow: 32
+  assettrend16:
+     function: systems.provided.rob_system.rules.ewmac_calc_vol
+     data:
+         - "rawdata.normalised_price_for_asset_class"
+     other_args:
+         Lfast: 16
+         Lslow: 64
+  assettrend32:
+     function: systems.provided.rob_system.rules.ewmac_calc_vol
+     data:
+         - "rawdata.normalised_price_for_asset_class"
+     other_args:
+         Lfast: 32
+         Lslow: 128
+  assettrend64:
+     function: systems.provided.rob_system.rules.ewmac_calc_vol
+     data:
+         - "rawdata.normalised_price_for_asset_class"
+     other_args:
+         Lfast: 64
+         Lslow: 256
+  normmom2:
+     function: systems.provided.rob_system.rules.ewmac_calc_vol
+     data:
+         - "rawdata.get_cumulative_daily_vol_normalised_returns"
+     other_args:
+         Lfast: 2
+         Lslow: 8
+  normmom4:
+     function: systems.provided.rob_system.rules.ewmac_calc_vol
+     data:
+         - "rawdata.get_cumulative_daily_vol_normalised_returns"
+     other_args:
+         Lfast: 4
+         Lslow: 16
+  normmom8:
+     function: systems.provided.rob_system.rules.ewmac_calc_vol
+     data:
+         - "rawdata.get_cumulative_daily_vol_normalised_returns"
+     other_args:
+         Lfast: 8
+         Lslow: 32
+  normmom16:
+     function: systems.provided.rob_system.rules.ewmac_calc_vol
+     data:
+         - "rawdata.get_cumulative_daily_vol_normalised_returns"
+     other_args:
+         Lfast: 16
+         Lslow: 64
+  normmom32:
+     function: systems.provided.rob_system.rules.ewmac_calc_vol
+     data:
+         - "rawdata.get_cumulative_daily_vol_normalised_returns"
+     other_args:
+         Lfast: 32
+         Lslow: 128
+  normmom64:
+     function: systems.provided.rob_system.rules.ewmac_calc_vol
+     data:
+         - "rawdata.get_cumulative_daily_vol_normalised_returns"
+     other_args:
+         Lfast: 64
+         Lslow: 256
+  momentum4:
+     function: systems.provided.rob_system.rules.ewmac
+     data:
+         - "rawdata.get_daily_prices"
+         - "rawdata.daily_returns_volatility"
+     other_args:
+         Lfast: 4
+         Lslow: 16
+  momentum8:
+     function: systems.provided.rob_system.rules.ewmac
+     data:
+         - "rawdata.get_daily_prices"
+         - "rawdata.daily_returns_volatility"
+     other_args:
+         Lfast: 8
+         Lslow: 32
+  momentum16:
+     function: systems.provided.rob_system.rules.ewmac
+     data:
+         - "rawdata.get_daily_prices"
+         - "rawdata.daily_returns_volatility"
+     other_args:
+         Lfast: 16
+         Lslow: 64
+  momentum32:
+     function: systems.provided.rob_system.rules.ewmac
+     data:
+         - "rawdata.get_daily_prices"
+         - "rawdata.daily_returns_volatility"
+     other_args:
+         Lfast: 32
+         Lslow: 128
+  momentum64:
+     function: systems.provided.rob_system.rules.ewmac
+     data:
+         - "rawdata.get_daily_prices"
+         - "rawdata.daily_returns_volatility"
+     other_args:
+         Lfast: 64
+         Lslow: 256
+  relcarry:
+     function: systems.provided.rob_system.rules.relative_carry
+     data:
+          - "rawdata.smoothed_carry"
+          - "rawdata.median_carry_for_asset_class"
+  skewabs365:
+     function: systems.provided.rob_system.rules.factor_trading_rule
+     data:
+          - 'rawdata.get_demeanded_factor_value'
+     other_args:
+          smooth: 90
+          _factor_name: 'neg_skew'
+          _demean_method: 'historic_average_factor_value_all_assets'
+          _lookback_days: 365
+  skewabs180:
+     function: systems.provided.rob_system.rules.factor_trading_rule
+     data:
+          - 'rawdata.get_demeanded_factor_value'
+     other_args:
+          smooth: 45
+          _factor_name: 'neg_skew'
+          _demean_method: 'historic_average_factor_value_all_assets'
+          _lookback_days: 180
+  skewrv365:
+     function: systems.provided.rob_system.rules.factor_trading_rule
+     data:
+          - 'rawdata.get_demeanded_factor_value'
+     other_args:
+          smooth: 90
+          _factor_name: 'neg_skew'
+          _demean_method: 'average_factor_value_in_asset_class_for_instrument'
+          _lookback_days: 365
+  skewrv180:
+     function: systems.provided.rob_system.rules.factor_trading_rule
+     data:
+          - 'rawdata.get_demeanded_factor_value'
+     other_args:
+          smooth: 45
+          _factor_name: 'neg_skew'
+          _demean_method: 'average_factor_value_in_asset_class_for_instrument'
+          _lookback_days: 180
+  accel16:
+    function: systems.provided.rob_system.rules.accel
+    data:
+         - "rawdata.get_daily_prices"
+         - "rawdata.daily_returns_volatility"
+    other_args:
+         Lfast: 16
+  accel32:
+    function: systems.provided.rob_system.rules.accel
+    data:
+         - "rawdata.get_daily_prices"
+         - "rawdata.daily_returns_volatility"
+    other_args:
+         Lfast: 32
+  accel64:
+    function: systems.provided.rob_system.rules.accel
+    data:
+         - "rawdata.get_daily_prices"
+         - "rawdata.daily_returns_volatility"
+    other_args:
+         Lfast: 64
+  mrwrings4:
+    function: systems.provided.rob_system.rules.mr_wings
+    data:
+         - "rawdata.get_daily_prices"
+         - "rawdata.daily_returns_volatility"
+    other_args:
+         Lfast: 4
+#
+forecast_cap: 20.0
+#
+#forecast_scalars:
+
+##
+## forecast combination
+##
+## Capital correction
+##
+
+##
+## Portfolio creation
+##
+#forecast_weights:
+
+#forecast_div_multiplier:
+
+#instrument_weights:
+instrument_div_multiplier:
+  2.5

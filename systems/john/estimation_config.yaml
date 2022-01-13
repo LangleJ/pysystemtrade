@@ -9,18 +9,13 @@ use_forecast_scale_estimates: True
 #    pool_instruments: True
 
 forecast_weight_estimate : 
-  n_threads : 8
+  n_threads: 8
 
+capital_multiplier:
+  func: syscore.capital.half_compounding
 
-#
-#
-#
-#
-# Raw data
-#
-#
-# Trading rules
-#
+start_date: 2000-01-01
+
 volatility_calculation:
   func: "sysquant.estimators.vol.mixed_vol_calc"
   days: 35
@@ -29,7 +24,11 @@ volatility_calculation:
   slow_vol_years: 20
   proportion_of_slow_vol: 0.35
   backfill: True
-#
+
+percentage_vol_target: 25.0
+notional_trading_capital: 100000
+base_currency: "GBP"
+
 use_attenuation:
    - 'breakout10'
    - 'breakout20'
@@ -398,9 +397,7 @@ forecast_cap: 20.0
 ##
 ## Capital correction
 ##
-percentage_vol_target: 25.0
-notional_trading_capital: 10000
-base_currency: "GBP"
+
 ##
 ## Portfolio creation
 ##
